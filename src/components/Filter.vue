@@ -1,30 +1,46 @@
 <template>
     <div>
-        <ul class="drop-container" :bind="selectedData">
+        <ul class="drop-container">
             <h2 @click="displayToggle()">Filter by Region <i class="fa fa-angle-down"></i></h2>
             <ul v-show="display" class="dropdown-box">
-                <li @click="!displayToggle()" v-for="(country, index) in countries" :key="index">
+                <label v-for="(country, index) in countries" :key="index">
                     {{ country }}
-                </li>
+                    <input v-on:click="getRegion" v-model="selectedData" :value="country" type="radio" checked="checked" name="radio">
+                </label>
             </ul>
         </ul>
     </div>
 </template>
 
 <script>
+    import {
+        EventBus
+    } from '../main.js';
+
+    import axios from 'axios';
+
     export default {
         data() {
             return {
                 selectedData: '',
                 display: false,
+                RegionData: '',
                 countries: [
                     'Africa',
-                    'America',
-                    'Angola',
-                    'Asia'
+                    'Americas',
+                    'Asia',
+                    'Europe',
+                    'Oceania'
                 ]
             }
         },
+
+        created() {
+            this.selectedData = 'Africa';
+
+        },
+
+
         methods: {
             displayToggle() {
                 if (this.display === false) {
@@ -32,6 +48,25 @@
                 } else {
                     this.display = false;
                 }
+            },
+
+            getRegion() {
+                this.displayToggle();
+            },
+
+        },
+
+        watch: {
+            selectedData(newVal){
+                console.log(newVal);
+                  axios.get(`https://restcountries.eu/rest/v2/region/${ newVal}`).then(response => {
+                    this.RegionData = response.data;
+                    EventBus.$emit('region', this.RegionData);
+                    console.log(this.RegionData , "watchers");
+                })
+                .catch(err => {
+                    console.log(err);
+                })
             }
         }
     }
@@ -53,7 +88,7 @@
             cursor: pointer;
             border-radius: .5rem;
             color: var(--text-color);
-            
+
 
             & i {
                 margin-left: 1rem;
@@ -74,12 +109,17 @@
             width: 17.2rem;
 
 
-            & li {
+            & label {
                 font-size: 1.6rem;
                 list-style: none;
                 padding: .3rem 2rem;
                 color: var(--text-color);
                 cursor: pointer;
+                width: 100%;
+
+                & input {
+                    visibility: hidden;
+                }
 
                 &:hover {
                     background-color: var(--primary-color-light);

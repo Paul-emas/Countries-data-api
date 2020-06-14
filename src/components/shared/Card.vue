@@ -1,25 +1,25 @@
 <template>
     <div class="country">
         <div class="row">
-            <div class="col-lg-3" v-for="(countryData, index) in data" :key="index">
+            <div class="col-lg-3" v-for="countryData in filteredList" :key="countryData.alpha2Code">
                 <div class="country-card">
                     <figure class="country-50">
-                        <span v-if="loading" class="glassy"></span>
+                        <span v-show="loading" class="glassy"></span>
                         <img v-bind:src="countryData.flag" alt="country-img" />
                     </figure>
 
                     <div class="country-card-details country-50">
-                        <h2 class="name"><span v-if="loading" class="glassy glassy-text"></span> {{ countryData.name }}</h2>
-                        <p class="text"><span v-if="loading" class="glassy glassy-text"></span> Popultation:
+                        <h2 class="name"><span v-show="loading" class="glassy glassy-text"></span>
+                            {{ countryData.name }}</h2>
+                        <p class="text"><span v-show="loading" class="glassy glassy-text"></span> Popultation:
                             <span class="detail">{{ countryData.population }}</span></p>
-                        <p class="text"><span v-if="loading" class="glassy glassy-text"></span> Region: <span
+                        <p class="text"><span v-show="loading" class="glassy glassy-text"></span> Region: <span
                                 class="detail">{{ countryData.region }}</span></p>
-                        <p class="text"><span v-if="loading" class="glassy glassy-text"></span> Capital: <span
+                        <p class="text"><span v-show="loading" class="glassy glassy-text"></span> Capital: <span
                                 class="detail">{{ countryData.capital }}</span></p>
                     </div>
                 </div>
             </div>
-
         </div>
 
     </div>
@@ -27,14 +27,25 @@
 
 
 <script>
-import axios from 'axios';
+    import axios from 'axios';
+
+    import {
+        EventBus
+    } from "../../main.js";
 
     export default {
         data() {
             return {
                 data: [],
-                loading: true
+                loading: true,
+                search: '',
             }
+        },
+
+        beforeCreate() {
+            EventBus.$on('searchData', (searchData) => {
+                this.search = searchData;
+            });
         },
 
         created() {
@@ -45,8 +56,25 @@ import axios from 'axios';
                 .catch(err => {
                     console.log(err);
                 })
-                this.loading = false;
+            setTimeout(() => this.loading = false, 1500)
+            EventBus.$emit('region', this.RegionData);
         },
+
+        mounted() {
+             EventBus.$on('region', (filteredRegion) => {
+                this.data = filteredRegion;
+                console.log(this.data)
+            });
+        },
+
+        computed: {
+            filteredList() {
+                return this.data.filter(country => {
+                    return country.name.toLowerCase().includes(this.search.toLowerCase());
+                })
+            }
+        }
+
 
     }
 </script>
@@ -68,6 +96,7 @@ import axios from 'axios';
                 z-index: 2;
                 left: 0;
                 top: 0;
+                transition: all .5s;
 
                 &::before {
                     position: absolute;

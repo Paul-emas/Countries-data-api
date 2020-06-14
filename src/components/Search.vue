@@ -3,11 +3,35 @@
         <form action="#">
             <div class="filter-box">
                 <i class="fa fa-search"></i>
-                <input type="text" placeholder="Search for a country..." class="filter-form" />
+                <input v-model="searchData" @click="sendData" v-on:prevent.stop type="text" placeholder="Search for a country..." class="filter-form" />
             </div>
         </form>
     </div>
 </template>
+
+<script>
+
+import { EventBus } from '../main.js';
+
+export default {
+    data() {
+        return {
+            searchData: ''
+        }
+    },
+
+    created() {
+        EventBus.$emit('searchData', this.searchData);
+    },
+
+    computed: {
+        sendData: function() {
+            return EventBus.$emit('searchData', this.searchData);
+        }
+    }
+}
+</script>
+
 
 <style lang="scss" scoped>
     .filter {
