@@ -17,7 +17,22 @@
         data() {
             return {
                 toggleSwitch: true,
-                toggleText: 'Light'
+                toggleText: ''
+            }
+        },
+
+        created() {
+            const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+
+
+            if (currentTheme) {
+                document.documentElement.setAttribute('data-theme', currentTheme);
+
+                this.toggleText = currentTheme;
+
+                if (currentTheme === 'light') {
+                    this.toggleSwitch = true;
+                }
             }
         },
 
@@ -34,17 +49,6 @@
                     localStorage.setItem('theme', 'light');
                     this.toggleSwitch = true;
                     this.toggleText = 'Light';
-                }
-
-                const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
-
-
-                if (currentTheme) {
-                    document.documentElement.setAttribute('data-theme', currentTheme);
-
-                    if (currentTheme === 'light') {
-                        this.toggleSwitch = true;
-                    }
                 }
             }
         }

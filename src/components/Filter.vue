@@ -1,11 +1,12 @@
 <template>
     <div>
         <ul class="drop-container">
-            <h2 @click="displayToggle()">Filter by Region <i class="fa fa-angle-down"></i></h2>
+            <h2 @click="displayToggle()"> {{ filterCaption }} <i class="fa fa-angle-down"></i></h2>
             <ul v-show="display" class="dropdown-box">
                 <label v-for="(country, index) in countries" :key="index">
                     {{ country }}
-                    <input v-on:click="getRegion" v-model="selectedData" :value="country" type="radio" checked="checked" name="radio">
+                    <input v-on:click="getRegion" v-model="selectedData" :value="country" type="radio" checked="checked"
+                        name="radio">
                 </label>
             </ul>
         </ul>
@@ -23,9 +24,11 @@
         data() {
             return {
                 selectedData: '',
+                filterCaption: 'Filter by Region',
                 display: false,
                 RegionData: '',
                 countries: [
+                    'All',
                     'Africa',
                     'Americas',
                     'Asia',
@@ -33,11 +36,6 @@
                     'Oceania'
                 ]
             }
-        },
-
-        created() {
-            this.selectedData = 'Africa';
-
         },
 
 
@@ -57,16 +55,28 @@
         },
 
         watch: {
-            selectedData(newVal){
+            selectedData(newVal) {
                 console.log(newVal);
-                  axios.get(`https://restcountries.eu/rest/v2/region/${ newVal}`).then(response => {
-                    this.RegionData = response.data;
-                    EventBus.$emit('region', this.RegionData);
-                    console.log(this.RegionData , "watchers");
-                })
-                .catch(err => {
-                    console.log(err);
-                })
+                this.filterCaption = newVal;
+                axios.get(`https://restcountries.eu/rest/v2/region/${ newVal}`).then(response => {
+                        this.RegionData = response.data;
+                        EventBus.$emit('region', this.RegionData);
+                        console.log(this.RegionData, "watchers");
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
+
+                if (newVal === 'All') {
+                    this.filterCaption = 'Filter by Region';
+                    axios.get('https://restcountries.eu/rest/v2/all').then(response => {
+                            this.RegionData = response.data;
+                             EventBus.$emit('region', this.RegionData);
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        })
+                }
             }
         }
     }
