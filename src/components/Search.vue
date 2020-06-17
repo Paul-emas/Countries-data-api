@@ -1,6 +1,6 @@
 <template>
     <div>
-        <form action="#">
+        <form>
             <div class="filter-box">
                 <i class="fa fa-search"></i>
                 <input v-model="searchData" @click="sendData" v-on:prevent.stop type="text" placeholder="Search for a country..." class="filter-form" />

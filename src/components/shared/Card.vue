@@ -1,7 +1,7 @@
 <template>
     <div class="country">
         <div class="row">
-            <div class="col-lg-3" v-for="countryData in filteredList" :key="countryData.alpha2Code">
+            <div class="col-lg-3" @click="emitCountry(countryData)" v-for="countryData in filteredList" :key="countryData.alpha2Code">
                 <router-link to="/pages" tag="div" class="country-card" exact>
                     <figure class="country-50">
                         <span v-show="loading" class="glassy"></span>
@@ -65,6 +65,12 @@
                 this.data = filteredRegion;
                 console.log(this.data)
             });
+        },
+
+        methods: {
+            emitCountry(selectedCountry) {
+                EventBus.$emit('country-data', selectedCountry);
+            }
         },
 
         computed: {
