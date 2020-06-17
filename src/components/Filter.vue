@@ -83,11 +83,48 @@
 </script>
 
 <style lang="scss" scoped>
+    @mixin respond($breakpoint) {
+    @if $breakpoint==phone {
+        @media only screen and (max-width: 37.5em) {
+            @content
+        }
+
+        ; //600px
+    }
+
+    @if $breakpoint==tab-port {
+        @media only screen and (max-width: 56.25em) {
+            @content
+        }
+
+        ; //900px
+    }
+
+    @if $breakpoint==tab-land {
+        @media only screen and (max-width: 75em) {
+            @content
+        }
+
+        ; //1200px
+    }
+
+    @if $breakpoint==big-desktop {
+        @media only screen and (max-width: 112.5em) {
+            @content
+        }
+
+        ; //1800
+    }
+}
     .drop-container {
         float: right;
         right: 0;
         padding-right: 3rem;
         position: relative;
+
+        @include respond(tab-port) {
+            float: none;
+        }
 
 
         & h2 {
@@ -99,9 +136,19 @@
             border-radius: .5rem;
             color: var(--text-color);
 
+             @include respond(tab-port) {
+               padding: 1.5rem 2.2rem;
+               width: 20rem;
+            }
+
 
             & i {
                 margin-left: 1rem;
+
+                @include respond(tab-port) {
+                    float: right;
+                    right: 2rem;
+                }
             }
         }
 

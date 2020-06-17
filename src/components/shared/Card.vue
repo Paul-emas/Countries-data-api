@@ -2,7 +2,7 @@
     <div class="country">
         <div class="row">
             <div class="col-lg-3" v-for="countryData in filteredList" :key="countryData.alpha2Code">
-                <div class="country-card">
+                <router-link to="/pages" tag="div" class="country-card" exact>
                     <figure class="country-50">
                         <span v-show="loading" class="glassy"></span>
                         <img v-bind:src="countryData.flag" alt="country-img" />
@@ -18,7 +18,7 @@
                         <p class="text"><span v-show="loading" class="glassy glassy-text"></span> Capital: <span
                                 class="detail">{{ countryData.capital }}</span></p>
                     </div>
-                </div>
+                </router-link>
             </div>
         </div>
 
@@ -80,6 +80,39 @@
 </script>
 
 <style lang="scss" scoped>
+     @mixin respond($breakpoint) {
+    @if $breakpoint==phone {
+        @media only screen and (max-width: 37.5em) {
+            @content
+        }
+
+        ; //600px
+    }
+
+    @if $breakpoint==tab-port {
+        @media only screen and (max-width: 56.25em) {
+            @content
+        }
+
+        ; //900px
+    }
+
+    @if $breakpoint==tab-land {
+        @media only screen and (max-width: 75em) {
+            @content
+        }
+
+        ; //1200px
+    }
+
+    @if $breakpoint==big-desktop {
+        @media only screen and (max-width: 112.5em) {
+            @content
+        }
+
+        ; //1800
+    }
+}
     .country {
 
         & .row {
@@ -109,6 +142,10 @@
 
             &:first-child {
                 margin-top: 20rem;
+
+                @include respond(tab-port) {
+                    margin-top: 14rem;
+                }
             }
         }
 
@@ -127,6 +164,11 @@
             color: var(--text-color);
             cursor: pointer;
             transition: all .3s;
+
+             @include respond(tab-land) {
+                    margin: 0 auto;
+                    height: auto;
+                }
 
             &:active {
                 transform: scale(.8);

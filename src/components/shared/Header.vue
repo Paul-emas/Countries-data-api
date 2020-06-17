@@ -6,6 +6,8 @@
                 <button @click="toggleDark" ref="toggle" class="dark-md"><span class="lnr lnr-moon"></span>
                     {{ toggleText }}
                     mode</button>
+                    
+                    
             </div>
         </header>
     </div>
@@ -56,7 +58,40 @@
 </script>
 
 
-<style lang="scss" scoped>
+<style lang="scss">
+     @mixin respond($breakpoint) {
+    @if $breakpoint==phone {
+        @media only screen and (max-width: 37.5em) {
+            @content
+        }
+
+        ; //600px
+    }
+
+    @if $breakpoint==tab-port {
+        @media only screen and (max-width: 56.25em) {
+            @content
+        }
+
+        ; //900px
+    }
+
+    @if $breakpoint==tab-land {
+        @media only screen and (max-width: 75em) {
+            @content
+        }
+
+        ; //1200px
+    }
+
+    @if $breakpoint==big-desktop {
+        @media only screen and (max-width: 112.5em) {
+            @content
+        }
+
+        ; //1800
+    }
+}
     .header {
         position: fixed;
         height: 7rem;
@@ -76,6 +111,11 @@
             margin-top: 2rem;
             font-weight: 700;
             color: var(--text-color);
+
+             @include respond(tab-port) {
+                font-size: 1.8rem;
+                margin-top: 2.5rem;
+            }
         }
 
         & .dark-md {
@@ -93,6 +133,11 @@
             transition-delay: .2s;
             color: var(--text-color);
             transition: all .5s;
+
+             @include respond(tab-port) {
+                top: -1rem;
+                font-size: 1.5rem;
+            }
 
             & span {
                 position: relative;

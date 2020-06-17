@@ -32,8 +32,41 @@ export default {
 }
 </script>
 
+<style lang="scss">
+    @mixin respond($breakpoint) {
+    @if $breakpoint==phone {
+        @media only screen and (max-width: 37.5em) {
+            @content
+        }
 
-<style lang="scss" scoped>
+        ; //600px
+    }
+
+    @if $breakpoint==tab-port {
+        @media only screen and (max-width: 56.25em) {
+            @content
+        }
+
+        ; //900px
+    }
+
+    @if $breakpoint==tab-land {
+        @media only screen and (max-width: 75em) {
+            @content
+        }
+
+        ; //1200px
+    }
+
+    @if $breakpoint==big-desktop {
+        @media only screen and (max-width: 112.5em) {
+            @content
+        }
+
+        ; //1800
+    }
+}
+
     .filter {
 
         &-box {
@@ -42,6 +75,14 @@ export default {
             width: 45rem;
             border-radius: .5rem;
             box-shadow: 0 0 .2rem var(--form-input);
+
+            @include respond(tab-port) {
+                width: 100%;
+                display: flex;
+                margin-bottom: 3rem;
+            }
+
+            
 
             & i {
                 font-size: 1.8rem;
