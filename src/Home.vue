@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container">
+    <div class="container-fluid">
       <app-form></app-form>
       <app-card></app-card>
     </div>
@@ -21,7 +21,7 @@
 
 <style lang="scss">
   // MIXINS
-  
+
 
 
   // VARIABLES
@@ -31,7 +31,7 @@
     --primary-color-light: #fafafa;
     --primary-color: #fffff !important;
     --text-color: #111517;
-    --form-input: #858585;
+    --form-input: #c9c9c9;
     --glass: #dddbdb;
   }
 
@@ -39,6 +39,7 @@
     --primary-color: hsl(207, 26%, 17%);
     --white: hsl(207, 26%, 17%);
     --primary-color-light: #2b3945;
+    --form-input: #1e2730;
     --text-color: #ffffff;
     --glass: #111517;
   }
@@ -66,5 +67,15 @@
     background-color: var(--primary-color-light);
     transition: all .4s;
     overflow-x: hidden;
+  }
+
+  .container-fluid {
+    padding: 0 5rem;
+  }
+
+  @media screen and (max-width: 900px) {
+    .container-fluid {
+      padding: 0 1.5rem !important;
+    }
   }
 </style>

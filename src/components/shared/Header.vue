@@ -1,13 +1,13 @@
 <template>
     <div>
         <header class="header">
-            <div class="container">
+            <div class="container-fluid">
                 <h1>Where in the world?</h1>
                 <button @click="toggleDark" ref="toggle" class="dark-md"><span class="lnr lnr-moon"></span>
                     {{ toggleText }}
                     mode</button>
-                    
-                    
+
+
             </div>
         </header>
     </div>
@@ -30,7 +30,7 @@
             if (currentTheme) {
                 document.documentElement.setAttribute('data-theme', currentTheme);
 
-                this.toggleText = currentTheme;
+                this.toggleText = 'Dark';
 
                 if (currentTheme === 'light') {
                     this.toggleSwitch = true;
@@ -45,12 +45,12 @@
                     document.documentElement.setAttribute('data-theme', 'dark');
                     localStorage.setItem('theme', 'dark');
                     this.toggleSwitch = false;
-                    this.toggleText = 'Dark';
+                    this.toggleText = 'Light';
                 } else {
                     document.documentElement.setAttribute('data-theme', 'light');
                     localStorage.setItem('theme', 'light');
                     this.toggleSwitch = true;
-                    this.toggleText = 'Light';
+                    this.toggleText = 'Dark';
                 }
             }
         }
@@ -59,44 +59,45 @@
 
 
 <style lang="scss">
-     @mixin respond($breakpoint) {
-    @if $breakpoint==phone {
-        @media only screen and (max-width: 37.5em) {
-            @content
+    @mixin respond($breakpoint) {
+        @if $breakpoint==phone {
+            @media only screen and (max-width: 37.5em) {
+                @content
+            }
+
+            ; //600px
         }
 
-        ; //600px
-    }
+        @if $breakpoint==tab-port {
+            @media only screen and (max-width: 56.25em) {
+                @content
+            }
 
-    @if $breakpoint==tab-port {
-        @media only screen and (max-width: 56.25em) {
-            @content
+            ; //900px
         }
 
-        ; //900px
-    }
+        @if $breakpoint==tab-land {
+            @media only screen and (max-width: 75em) {
+                @content
+            }
 
-    @if $breakpoint==tab-land {
-        @media only screen and (max-width: 75em) {
-            @content
+            ; //1200px
         }
 
-        ; //1200px
-    }
+        @if $breakpoint==big-desktop {
+            @media only screen and (max-width: 112.5em) {
+                @content
+            }
 
-    @if $breakpoint==big-desktop {
-        @media only screen and (max-width: 112.5em) {
-            @content
+            ; //1800
         }
-
-        ; //1800
     }
-}
+
     .header {
         position: fixed;
         height: 7rem;
         width: 100%;
-        border-bottom: 3px solid rgb(209, 209, 209);
+        box-shadow: 0 .1rem .5rem var(--form-input);
         left: 0;
         top: 0;
         background-color: var(--white);
@@ -112,7 +113,7 @@
             font-weight: 700;
             color: var(--text-color);
 
-             @include respond(tab-port) {
+            @include respond(tab-port) {
                 font-size: 1.8rem;
                 margin-top: 2.5rem;
             }
@@ -124,8 +125,8 @@
             padding: 1rem 2rem;
             font-size: 1.6rem;
             float: right;
-            right: 0;
-            top: -.5rem;
+            right: 3rem;
+            top: 1.2rem;
             position: absolute;
             font-weight: 600;
             outline: none;
@@ -134,9 +135,9 @@
             color: var(--text-color);
             transition: all .5s;
 
-             @include respond(tab-port) {
-                top: -1rem;
+            @include respond(tab-port) {
                 font-size: 1.5rem;
+                right: 0;
             }
 
             & span {

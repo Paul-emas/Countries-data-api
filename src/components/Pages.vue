@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="page-container">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-7">
                         <router-link to="/" tag="button" class="page-btn"><span class="lnr lnr-arrow-left"> </span> Back
@@ -117,7 +117,11 @@
             & img {
                 margin-top: 6rem;
                 width: 100%;
-                height: 42.3rem;
+                height: 50rem !important;
+
+                @include respond(tab-land) {
+                    height: 42rem;
+                }
 
                 @include respond(tab-port) {
                     height: auto;
@@ -165,7 +169,7 @@
         &-btn {
             padding: 1rem 3.5rem;
             border-radius: .5rem;
-            box-shadow: 0 0 .2rem var(--form-input);
+            box-shadow: 0 .2rem .5rem var(--form-input);
             font-size: 1.5rem;
             border: none;
             outline: none;

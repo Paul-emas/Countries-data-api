@@ -1,7 +1,7 @@
 <template>
     <div class="country">
         <div class="row">
-            <div class="col-lg-3" @click="emitCountry(countryData)" v-for="countryData in filteredList" :key="countryData.alpha2Code">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3" @click="emitCountry(countryData)" v-for="countryData in filteredList" :key="countryData.alpha2Code">
                 <router-link to="/pages" tag="div" class="country-card" exact>
                     <figure class="country-50">
                         <span v-show="loading" class="glassy"></span>
@@ -86,6 +86,7 @@
 </script>
 
 <style lang="scss" scoped>
+    
      @mixin respond($breakpoint) {
     @if $breakpoint==phone {
         @media only screen and (max-width: 37.5em) {
@@ -123,7 +124,7 @@
 
         & .row {
 
-            & .col-lg-3 {
+            & .col-lg-4 {
                 margin-bottom: 5rem;
             }
 
@@ -161,19 +162,27 @@
         }
 
         &-card {
-            width: 90%;
-            height: 32rem;
+            width: 85%;
+            height: 38rem;
             overflow: hidden;
-            border-radius: .7rem;
+            border-radius: .6rem;
             background-color: var(--white);
-            box-shadow: 0 0 .3rem var(--form-input);
+            box-shadow: 0 .5rem 1rem var(--form-input); 
             color: var(--text-color);
             cursor: pointer;
             transition: all .3s;
 
-             @include respond(tab-land) {
+            @include respond(tab-land) {
+                width: 100%;
+            }
+
+            @include respond(tab-port) {
+                width: 100%;
+                height: auto;
+            }
+
+             @include respond(phone) {
                     margin: 0 auto;
-                    height: auto;
                 }
 
             &:active {
@@ -189,7 +198,7 @@
 
             &-details {
                 height: 100%;
-                padding: 1rem 1.5rem;
+                padding: 2rem 2.5rem;
 
                 & .name,
                 .text {
@@ -205,7 +214,7 @@
                 & .text {
                     line-height: 1.2;
                     margin-bottom: .8rem;
-                    font-size: 1.3rem;
+                    font-size: 1.4rem;
                     font-weight: 700;
                     text-transform: capitalize;
 
@@ -230,4 +239,5 @@
             }
         }
     }
+
 </style>

@@ -3,69 +3,71 @@
         <form>
             <div class="filter-box">
                 <i class="fa fa-search"></i>
-                <input v-model="searchData" @click="sendData" v-on:prevent.stop type="text" placeholder="Search for a country..." class="filter-form" />
+                <input v-model="searchData" @click="sendData" v-on:prevent.stop type="text"
+                    placeholder="Search for a country..." class="filter-form" />
             </div>
         </form>
     </div>
 </template>
 
 <script>
+    import {
+        EventBus
+    } from '../main.js';
 
-import { EventBus } from '../main.js';
+    export default {
+        data() {
+            return {
+                searchData: ''
+            }
+        },
 
-export default {
-    data() {
-        return {
-            searchData: ''
-        }
-    },
+        created() {
+            EventBus.$emit('searchData', this.searchData);
+        },
 
-    created() {
-        EventBus.$emit('searchData', this.searchData);
-    },
-
-    computed: {
-        sendData: function() {
-            return EventBus.$emit('searchData', this.searchData);
+        computed: {
+            sendData: function () {
+                return EventBus.$emit('searchData', this.searchData);
+            }
         }
     }
-}
 </script>
 
 <style lang="scss">
     @mixin respond($breakpoint) {
-    @if $breakpoint==phone {
-        @media only screen and (max-width: 37.5em) {
-            @content
+        @if $breakpoint==phone {
+            @media only screen and (max-width: 37.5em) {
+                @content
+            }
+
+            ; //600px
         }
 
-        ; //600px
-    }
+        @if $breakpoint==tab-port {
+            @media only screen and (max-width: 56.25em) {
+                @content
+            }
 
-    @if $breakpoint==tab-port {
-        @media only screen and (max-width: 56.25em) {
-            @content
+            ; //900px
         }
 
-        ; //900px
-    }
+        @if $breakpoint==tab-land {
+            @media only screen and (max-width: 75em) {
+                @content
+            }
 
-    @if $breakpoint==tab-land {
-        @media only screen and (max-width: 75em) {
-            @content
+            ; //1200px
         }
 
-        ; //1200px
-    }
+        @if $breakpoint==big-desktop {
+            @media only screen and (max-width: 112.5em) {
+                @content
+            }
 
-    @if $breakpoint==big-desktop {
-        @media only screen and (max-width: 112.5em) {
-            @content
+            ; //1800
         }
-
-        ; //1800
     }
-}
 
     .filter {
 
@@ -74,7 +76,8 @@ export default {
             background-color: var(--white);
             width: 45rem;
             border-radius: .5rem;
-            box-shadow: 0 0 .2rem var(--form-input);
+            box-shadow: .3rem .3rem .8rem var(--form-input);
+
 
             @include respond(tab-port) {
                 width: 100%;
@@ -82,7 +85,7 @@ export default {
                 margin-bottom: 3rem;
             }
 
-            
+
 
             & i {
                 font-size: 1.8rem;
